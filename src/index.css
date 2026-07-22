@@ -1,0 +1,75 @@
+:root {
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 2rem;
+    background: #fafafa;
+}
+
+.page-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.count {
+    color: #666;
+    font-size: .9rem;
+}
+
+.facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #fff;
+}
+
+.card h3 {
+    margin: 0 0 .25rem;
+    font-size: 1rem;
+}
+
+.card p {
+    margin: 0;
+    color: #666;
+    font-size: .9rem;
+}
+
+.error {
+    color: #c00;
+}
+
+.empty {
+    color: #888;
+    padding: 2rem;
+    text-align: center;
+}
+
+.empty .hint {
+    font-size: .9rem;
+    margin-top: .5rem;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #ddd;
+    border-top-color: #457b9d;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
