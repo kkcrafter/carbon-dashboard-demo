@@ -25,7 +25,7 @@ export function FacilitiesPage() {
         return () => { cancelled = true; };
     }, []);
 
-    if (loading) return <Spinner />;
+    if (loading) return <Spinner label="Loading sites…" />;
     if (error) return <p> Couldn't load sites: {error} </p>;
 
     const countries = new Set(
@@ -36,12 +36,10 @@ export function FacilitiesPage() {
         <section>
             <header className="page-header">
                 <h2> Sites </h2>
-                <span className="count"> {facilities.length} registered </span>
+                <span className="count">
+                    {facilities.length} sites across {countries.size} {countries.size === 1 ? "country" : "countries"}
+                </span>
             </header>
-
-            <p className="coverage">
-                {facilities.length} site{facilities.length !== 1 ? "s" : ""} across {countries.size} countr{countries.size !== 1 ? "ies" : "y"}.
-            </p>
             <FacilityList facilities={facilities} />
         </section>
     )
