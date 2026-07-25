@@ -3,10 +3,16 @@ import FacilityCard from "./FacilityCard";
 
 type FacilityListProps = {
     facilities: Facility[];
+    onEdit: (f: Facility) => void;
+    onDelete: (f: Facility) => void;
 };
 
 // Display a list of facilities
-export function FacilityList({ facilities }: FacilityListProps) {
+export function FacilityList({
+    facilities,
+    onEdit,
+    onDelete,
+}: FacilityListProps) {
     if (facilities.length === 0) {
         return (
             <div className="empty">
@@ -18,7 +24,12 @@ export function FacilityList({ facilities }: FacilityListProps) {
     return (
         <div className="facility-grid">
             {facilities.map(f => (
-                <FacilityCard key={f.id} facility={f} />
+                <FacilityCard
+                    key={f.id}
+                    facility={f}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                />
             ))}
         </div>
     );
