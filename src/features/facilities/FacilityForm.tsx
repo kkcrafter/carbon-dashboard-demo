@@ -84,6 +84,9 @@ export function FacilityForm({
                 {locationTouched && locationError && <span className="field-error">{locationError}</span>}
             </label>
 
+            {/* form error */}
+            {formError && <p className="field-error">{formError}</p>}
+
             {/* Cancel button */}
             <button type="button" onClick={onCancel}>
                 Cancel

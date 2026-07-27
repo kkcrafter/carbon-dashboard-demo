@@ -7,6 +7,7 @@ import * as facilityApi from "../../api/facilities";
 
 export function FacilitiesPage() {
     const [facilities, setFacilities] = useState<Facility[]>([]);
+    const [sortBy, setSortBy] = useState<"name" | "location">("name");
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState<Facility | "new" | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -38,6 +39,13 @@ export function FacilitiesPage() {
         facilities.map(f => f.location.split(",").pop())
     );
 
+    // sorting
+    const sortedFacilities = [...facilities].sort((a, b) =>
+        sortBy === "name"
+            ? a.name.localeCompare(b.name)
+            : a.location.localeCompare(b.location)
+    );
+
     const handleCreate = async (payload: NewFacility) => {
         const created = await facilityApi.createFacility(payload);
         setFacilities(prev => [...prev, created]);
@@ -51,13 +59,34 @@ export function FacilitiesPage() {
     }
 
     const handleDelete = async (facility: Facility) => {
-        // Stage 6
-    }
+        // confirm delete window
+        if (!confirm(`Delete ${facility.name}?`)) return;
+
+        const before = facilities;
+        setFacilities(prev => prev.filter(f => f.id !== facility.id));
+        try {
+            await facilityApi.deleteFacility(facility.id);
+        } catch {
+            // restore if delete API fails
+            setFacilities(before);
+            alert("Delete failed");
+        }
+    };
 
     return (
         <section>
             <header className="page-header">
                 <h2> Sites </h2>
+
+                {/* Sorting */}
+                <label>
+                    Sort:
+                    <select value={sortBy} onChange={e => setSortBy(e.target.value as "name" | "location")}>
+                        <option value="name"> Name </option>
+                        <option value="location"> Location </option>
+                    </select>
+                </label>
+
                 {/* new site button */}
                 <button onClick={() => setEditing("new")}> + New site </button>
 
@@ -76,7 +105,7 @@ export function FacilitiesPage() {
 
 
             <FacilityList
-                facilities={facilities}
+                facilities={sortedFacilities}
                 onEdit={setEditing}
                 onDelete={handleDelete}
             />
